@@ -1,7 +1,7 @@
 Tinder
 ======
 
-A few helpers for Silex, that help you move boundaries outside you controllers
+A few helpers for Silex, that help you move boundaries outside your controllers
 where possible
 
 Contributing
