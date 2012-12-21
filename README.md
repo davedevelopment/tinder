@@ -36,6 +36,8 @@ $app->post("/user/{user}", function(MyApp\User $user) {
 })
 ->template("user_edit.html.twig"); // use this template
 
+```
+
 Contributing
 ------------
 
