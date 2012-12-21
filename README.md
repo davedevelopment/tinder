@@ -1,6 +1,8 @@
 Tinder
 ======
 
+:fire: :fire: With Silex and Tinder, your apps will be on FIRE! :fire: :fire:
+
 A few helpers for Silex, that help you move boundaries outside your controllers
 where possible
 
