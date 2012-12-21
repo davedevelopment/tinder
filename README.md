@@ -21,20 +21,19 @@ $app->post("/user/{user}", function(MyApp\User $user) {
     // serious business stuff
 })
 ->convert("user", $someKindOfUserConverter) 
-->enforce(function(MyApp\User $user) use ($app) { 
-    // enforce some security - can also take Security componed roles
-    return $user === $app['security']->getToken()->getUser();
-})
-->redirect(function(MyApp\User $user) { 
-    // redirect on success - ease of use needs to be much better
-    return "/user/" . $user->getId() 
-}) 
-->present(function(array $data) { 
-    // some data conversion before template
+->enforce("ROLE_ADMIN") // only admins can do this
+->redirect("get_user") // on success, go to the get_user url (no idea how I'll do the params yet)
+->template("user_edit.html.twig", function(array $data) { 
+    // use this template and do some data conversion beforehand 
     $data['user'] = new MyApp\Presenter\User($user);
     return $data;
+});
+
+$app->get("/some-page", function() {
+
 })
-->template("user_edit.html.twig"); // use this template
+->template("some_page.html.twig")
+->cache(["expires" => "tomorrow"]); // http cache until tomorrow
 
 ```
 
