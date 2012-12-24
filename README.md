@@ -21,10 +21,14 @@ $app = new Tinder\Application;
 
 $app->post("/user/{user}", "my_controller_as_service:post")
     ->convert("user", $someKindOfUserConverter) 
-    ->enforce("ROLE_ADMIN") // only admins can do this
-    ->redirect("get_user") // on success, go to the get_user url (no idea how I'll do the params yet)
+    ->enforce("ROLE_ADMIN") // only admins can do this, could be a closure with true/false return or throw
+    ->redirect("get_user", function(User $user) {
+        // on success, go to the get_user url (no idea how I'll do the params yet)
+        // params can be string as url or route name and/or closure for
+        // pre-processing, returning an url if a string param is not present
+    }) 
     ->template("user_edit.html.twig", function(array $data) { 
-        // use this template and do some data conversion beforehand 
+        // use this template and do some optional data conversion beforehand 
         $data['user'] = new MyApp\Presenter\User($user);
         return $data;
     });
