@@ -18,6 +18,7 @@ rather than `Silex\Application` and your existing functionality will still work.
 
 * [Controllers as Services](#controllers-as-services)
 * [Argument Injection](#argument-injection)
+* [Template Rendering](#template-rendering)
 * [README Driven Development](#readme-driven-development)
 * [Contributing](#contributing)
 * [Copyright](#copyright)
@@ -69,6 +70,31 @@ $app->post("/blog/posts", function (array $params) {
 *Why?* This means your controllers can be dependent on an arbitrary array of query vars or
 parameters, rather than a `Symfony\Component\HttpFoundation\Request`. Want to
 share controller code between the CLI and Web interfaces? 
+
+## Template Rendering ##
+
+Tinder adds a simple route helper that allows you to return an array of context
+variables from your controllers and have them rendered by a twig template
+defined on the route. An optional second argument allows you to manipulate the
+returned data before being passed to the template, allowing for presenters or
+ViewModels and the like.
+
+``` php
+<?php
+
+$app->get("/dave", function() {
+    return array("
+        "rating" => rand(1,10),
+    );
+})
+->template("dave.html.twig", function($data) {
+    $data['rating'] = 10;
+    return $data;
+});
+
+```
+
+*Why?* Why should your controller be responsible for rendering a template? 
 
 Readme Driven Development
 =========================
