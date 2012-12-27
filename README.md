@@ -8,6 +8,52 @@ Tinder
 A few helpers for Silex, that help you move boundaries outside your controllers
 where possible
 
+## Table Of Contents ##
+
+* [Controllers as Services](#controllers-as-services)
+* [Argument Injection](#argument-injection)
+* [README Driven Development](#readme-driven-development)
+* [Contributing](#contributing)
+* [Copyright](#copyright)
+
+## Controllers as Services ##
+
+Tinder extends the default controller resolver to allow you to register pimple
+services as controllers, using the syntax `service_name:method`.
+
+``` php
+<?php
+
+require "vendor/autoload.php";
+
+$app = new Tinder\Application;
+$app['config'] = ["dave" => "is ace"];
+$app['my_controller'] = function() use ($app) {
+    return new MyController($app['config']);
+};
+
+$app->get("/dave", "my_controller:daveAction");
+
+```
+
+## Argument Injection ##
+
+Tinder extends Silex's Controller Resolver to allow injecting HTTP GET or POST
+vars directly as controller arguments.
+
+``` php
+<?php
+
+// an array called query will be GET vars
+$app->get("/search", function (array $query) {
+});
+
+// an array called params will be POST vars
+$app->post("/blog/posts", function (array $params) {
+});
+
+```
+
 Readme Driven Development
 =========================
 
@@ -44,9 +90,8 @@ $app->get("/some-page", function() {})
 Contributing
 ------------
 
-Feel free to fork and send me pull requests, but I don't have a 1.0 release yet,
-so I may change the API quite frequently. If you want to implement something
-that I might easily break, please drop me an email
+Get in touch before hacking on anything, I've no idea what I might be doing, the
+whole library may have changed since my last push :)
 
 Copyright
 ---------
