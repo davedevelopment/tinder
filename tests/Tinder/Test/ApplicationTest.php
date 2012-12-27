@@ -50,6 +50,45 @@ class ApplicationTest extends BaseApplicationTest
         $app->get('/', 'my_controller:getAction');
         $this->assertEquals('Tinder\Test\MyController::getAction', $app->handle($request)->getContent());
     }
+
+    /**
+     * @test
+     */
+    public function shouldRenderTemplate()
+    {
+
+        $app = new Application();
+        $app->register(new \Silex\Provider\TwigServiceProvider(), array(
+            'twig.path' => __DIR__.'/views',
+        ));
+
+        $app->get('/', function() { return array('name' => 'Dave'); })
+            ->template('hello_world.html.twig');
+
+        $request = Request::create('/');
+        $this->assertEquals("Hello Dave\n", $app->handle($request)->getContent());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldCallCallbackBeforeRenderingTemplate()
+    {
+        $app = new Application();
+        $app->register(new \Silex\Provider\TwigServiceProvider(), array(
+            'twig.path' => __DIR__.'/views',
+        ));
+
+        $app->get('/', function() { 
+            return array('name' => 'Dave'); 
+        })
+        ->template('hello_world.html.twig', function($data) { 
+            $data['name'] = 'Tinder'; return $data; 
+        });
+
+        $request = Request::create('/');
+        $this->assertEquals("Hello Tinder\n", $app->handle($request)->getContent());
+    }
 }
 
 

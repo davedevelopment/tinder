@@ -4,6 +4,9 @@
     "require": {
         "silex/silex": "1.0.x-dev"
     },
+    "require-dev": {
+        "twig/twig": ">=1.8,<2.0-dev"
+    },
     "authors": [
         {
             "name": "Dave Marshall",
