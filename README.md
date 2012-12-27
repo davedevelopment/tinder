@@ -6,7 +6,9 @@ Tinder
 [![Build Status](https://travis-ci.org/davedevelopment/tinder.png)](https://travis-ci.org/davedevelopment/tinder)
 
 A few helpers for Silex, that help you move boundaries outside your controllers
-where possible
+where possible. At this stage, Tinder is completely backwards-compatible with
+Silex, so you should be able to instantiate or extend `Tinder\Application`,
+rather than `Silex\Application` and your existing functionality will still work.
 
 ## Table Of Contents ##
 
@@ -38,8 +40,10 @@ $app->get("/dave", "my_controller:daveAction");
 
 ## Argument Injection ##
 
-Tinder extends Silex's Controller Resolver to allow injecting HTTP GET or POST
+Tinder extends the default controller resolver to allow injecting HTTP GET or POST
 vars directly as controller arguments.
+
+** @TODO might be better passing an object here? e.g. `function (Tinder\ParameterBag $params)` **
 
 ``` php
 <?php
@@ -53,6 +57,9 @@ $app->post("/blog/posts", function (array $params) {
 });
 
 ```
+
+This means your controllers can be dependent on an arbitrary array of query vars or
+parameters, rather than a `Symfony\Component\HttpFoundation\Request`.
 
 Readme Driven Development
 =========================
