@@ -83,7 +83,7 @@ ViewModels and the like.
 <?php
 
 $app->get("/dave", function() {
-    return array("
+    return array(
         "rating" => rand(1,10),
     );
 })
