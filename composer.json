@@ -1,0 +1,20 @@
+{
+    "name": "davedevelopment/tinder",
+    "description": "Clean code enabler for silex",
+    "require": {
+        "silex/silex": "1.0.x-dev"
+    },
+    "authors": [
+        {
+            "name": "Dave Marshall",
+            "email": "dave.marshall@atstsolutions.co.uk"
+        }
+    ],
+    "autoload": {
+        "psr-0": { 
+            "Tinder": "src/", 
+            "Tinder\\Test": "tests/",
+            "Silex\\Tests": "vendor/silex/silex/tests"
+        }
+    }
+}
