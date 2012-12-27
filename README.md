@@ -6,7 +6,11 @@ Tinder
 [![Build Status](https://travis-ci.org/davedevelopment/tinder.png)](https://travis-ci.org/davedevelopment/tinder)
 
 A few helpers for Silex, that help you move boundaries outside your controllers
-where possible. At this stage, Tinder is completely backwards-compatible with
+where possible. It's a little hard to explain why you might want that, but
+eventually I'd like to have an example application that can show some of the
+benefits. 
+
+At this stage, Tinder is completely backwards-compatible with
 Silex, so you should be able to instantiate or extend `Tinder\Application`,
 rather than `Silex\Application` and your existing functionality will still work.
 
@@ -38,6 +42,10 @@ $app->get("/dave", "my_controller:daveAction");
 
 ```
 
+*Why?* Controllers as Services are a nice way to conform to several OOP
+principles, allowing you to organise your controllers, clearly define their
+dependencies and easily spec/test them.
+
 ## Argument Injection ##
 
 Tinder extends the default controller resolver to allow injecting HTTP GET or POST
@@ -58,8 +66,9 @@ $app->post("/blog/posts", function (array $params) {
 
 ```
 
-This means your controllers can be dependent on an arbitrary array of query vars or
-parameters, rather than a `Symfony\Component\HttpFoundation\Request`.
+*Why?* This means your controllers can be dependent on an arbitrary array of query vars or
+parameters, rather than a `Symfony\Component\HttpFoundation\Request`. Want to
+share controller code between the CLI and Web interfaces? 
 
 Readme Driven Development
 =========================
