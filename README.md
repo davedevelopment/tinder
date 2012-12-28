@@ -19,6 +19,7 @@ rather than `Silex\Application` and your existing functionality will still work.
 * [Controllers as Services](#controllers-as-services)
 * [Argument Injection](#argument-injection)
 * [Template Rendering](#template-rendering)
+* [Event Listeners as Services](#event-listeners-as-services)
 * [README Driven Development](#readme-driven-development)
 * [Contributing](#contributing)
 * [Copyright](#copyright)
@@ -95,6 +96,25 @@ $app->get("/dave", function() {
 ```
 
 *Why?* Why should your controller be responsible for rendering a template? 
+
+Event Listeners as Services
+===========================
+
+Much like the controllers, Tinder includes a `PimpleAwareEventDispatcher`,
+allowing you to configure services as event listeners or subscribers, so that
+they are lazy loaded.
+
+``` php
+<?php
+
+$app['dispatcher']->addListenerService('some.event', array('some_service_name', 'someMethod'));
+$app['dispatcher']->addSubscriberService('some_other_service', 'The\Fully\Qualified\ClassName\Of\That\Service');
+
+```
+
+Why? Performance. If you fully adopt the event dispatcher, your listeners are
+likely to be many, which in turn are likely to have many dependencies. This
+method saves loading them until they're actually needed.
 
 Readme Driven Development
 =========================

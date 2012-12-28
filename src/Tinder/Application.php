@@ -20,8 +20,14 @@ class Application extends BaseApplication
             return new ControllerResolver($app, $app['logger']);
         });
 
+        $this['tinder.template_rendering_listener'] = $this->share(function() use ($app) {
+            return new TemplateRenderingListener($app);
+        });
+
+        $this['dispatcher_class'] = "PimpleAwareEventDispatcher\PimpleAwareEventDispatcher";
         $this['dispatcher'] = $this->share($this->extend('dispatcher', function($dispatcher) use ($app) {
-            $dispatcher->addSubscriber(new TemplateRenderingListener($app));
+            $dispatcher->setContainer($app);
+            $dispatcher->addSubscriberService("tinder.template_rendering_listener", "Tinder\EventListener\TemplateRenderingListener");
             return $dispatcher;
         }));
     }
