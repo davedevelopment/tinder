@@ -53,8 +53,6 @@ dependencies and easily spec/test them.
 Tinder extends the default controller resolver to allow injecting HTTP GET or POST
 vars directly as controller arguments.
 
-** @TODO might be better passing an object here? e.g. `function (Tinder\ParameterBag $params)` **
-
 ``` php
 <?php
 
