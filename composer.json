@@ -1,6 +1,7 @@
 {
     "name": "davedevelopment/tinder",
     "description": "Clean code enabler for silex",
+    "licence": "MIT",
     "require": {
         "silex/silex": "1.0.x-dev",
         "davedevelopment/pimple-aware-event-dispatcher": "*@dev"
