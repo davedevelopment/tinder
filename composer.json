@@ -8,6 +8,9 @@
     "require-dev": {
         "twig/twig": ">=1.8,<2.0-dev"
     },
+    "suggest": {
+        "twig/twig": ">=1.8,<2.0-dev"
+    },
     "authors": [
         {
             "name": "Dave Marshall",
@@ -19,6 +22,11 @@
             "Tinder": "src/", 
             "Tinder\\Test": "tests/",
             "Silex\\Tests": "vendor/silex/silex/tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
         }
     }
 }
