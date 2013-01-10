@@ -26,27 +26,9 @@ rather than `Silex\Application` and your existing functionality will still work.
 
 ## Controllers as Services ##
 
-Tinder extends the default controller resolver to allow you to register pimple
-services as controllers, using the syntax `service_name:method`.
-
-``` php
-<?php
-
-require "vendor/autoload.php";
-
-$app = new Tinder\Application;
-$app['config'] = ["dave" => "is ace"];
-$app['my_controller'] = function() use ($app) {
-    return new MyController($app['config']);
-};
-
-$app->get("/dave", "my_controller:daveAction");
-
-```
-
-*Why?* Controllers as Services are a nice way to conform to several OOP
-principles, allowing you to organise your controllers, clearly define their
-dependencies and easily spec/test them.
+**UPDATE** - This is now available as the
+[ServiceControllerServiceProvider](http://silex.sensiolabs.org/doc/providers/service_controller.html)
+the Silex Core, Tinder enables it by default.
 
 ## Argument Injection ##
 

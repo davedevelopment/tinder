@@ -11,31 +11,6 @@ class ControllerResolverTest extends BaseControllerResolverTest
 {
     /**
      * @test
-     * @expectedException LogicException 
-     */
-    public function shouldThrowIfUnknownConvention()
-    {
-        $res = new ControllerResolver(new Application);
-        $req = Request::create("/dave");
-        $req->attributes->set('_controller', 'some_incorrect_convention');
-        $res->getController($req);
-    } 
-
-    /**
-     * @test
-     * @expectedException InvalidArgumentException 
-     * @expectedExceptionMessage Service "some_missing_controller" does not exist.
-     */
-    public function shouldThrowIfAServiceIsNotDefined()
-    {
-        $res = new ControllerResolver(new Application);
-        $req = Request::create("/dave");
-        $req->attributes->set('_controller', 'some_missing_controller:dave');
-        $res->getController($req);
-    } 
-
-    /**
-     * @test
      */
     public function shouldPrepareParamsForInject()
     {

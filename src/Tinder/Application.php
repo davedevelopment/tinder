@@ -3,6 +3,7 @@
 namespace Tinder;
 
 use Silex\Application as BaseApplication;
+use Silex\Provider\ServiceControllerServiceProvider;
 use Tinder\Controller\ControllerResolver;
 use Tinder\EventListener\TemplateRenderingListener;
 
@@ -19,6 +20,8 @@ class Application extends BaseApplication
         $this['resolver'] = $this->share(function () use ($app) {
             return new ControllerResolver($app, $app['logger']);
         });
+
+        $this->register(new ServiceControllerServiceProvider());
 
         $this['tinder.template_rendering_listener'] = $this->share(function() use ($app) {
             return new TemplateRenderingListener($app);
