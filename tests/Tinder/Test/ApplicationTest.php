@@ -89,6 +89,83 @@ class ApplicationTest extends BaseApplicationTest
         $request = Request::create('/');
         $this->assertEquals("Hello Tinder\n", $app->handle($request)->getContent());
     }
+
+    /**
+     * @test
+     */
+    public function shouldRedirectToStringUrl()
+    {
+        $url = "/dave";
+
+        $app = new Application();
+        $app->post("/blah", function() { return; })
+            ->redirect($url);
+
+        $request = Request::create('/blah', 'POST');
+        $response = $app->handle($request);
+
+        $this->assertInstanceOf("Symfony\Component\HttpFoundation\RedirectResponse", $response);
+        $this->assertEquals($url, $response->getTargetUrl());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRedirectToCallable()
+    {
+        $url = function() { return "/dave2"; };
+
+        $app = new Application();
+        $app->post("/blah", function() { return; })
+            ->redirect($url);
+
+        $request = Request::create('/blah', 'POST');
+        $response = $app->handle($request);
+
+        $this->assertInstanceOf("Symfony\Component\HttpFoundation\RedirectResponse", $response);
+        $this->assertEquals("/dave2", $response->getTargetUrl());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRedirectToCallableWithArguments()
+    {
+        $url = function($id) { return "/user/$id"; };
+
+        $app = new Application();
+        $app->post("/user/{id}", function() { return; })
+            ->redirect($url);
+
+        $request = Request::create('/user/12', 'POST');
+        $response = $app->handle($request);
+
+        $this->assertInstanceOf("Symfony\Component\HttpFoundation\RedirectResponse", $response);
+        $this->assertEquals("/user/12", $response->getTargetUrl());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRedirectUsingUrlGenerator()
+    {
+        $url = function($id) { return "/user/$id"; };
+
+        $app = new Application();
+        $app->register(new \Silex\Provider\UrlGeneratorServiceProvider());
+
+        $app->post("/user/{id}", function() { return; })
+            ->redirect("get_user", function($id) { return array("id" => $id); });
+
+        $app->get("/user/{id}", function() { return; })
+            ->bind("get_user");
+
+        $request = Request::create('/user/12', 'POST');
+        $response = $app->handle($request);
+
+        $this->assertInstanceOf("Symfony\Component\HttpFoundation\RedirectResponse", $response);
+        $this->assertEquals("/user/12", $response->getTargetUrl());
+    }
 }
 
 

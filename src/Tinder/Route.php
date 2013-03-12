@@ -18,4 +18,31 @@ class Route extends BaseRoute
         $this->setOption('_template', array($path, $closure));
         return $this;
     }
+
+    public function redirect()
+    {
+        $args = func_get_args();
+
+        $uri = null;
+        $callable = null;
+
+        while ($arg = array_shift($args)) {
+            if (is_string($arg)) {
+                $uri = $arg;
+            } else if (is_callable($arg)) {
+                $callable = $arg;
+            } else {
+                throw new \InvalidArgumentException(
+                    "The redirect method expects either a string, a callable, or a string and a callable, ".gettype($arg)." given"
+                );
+            }
+        }
+
+        $this->setOption('_redirect', array(
+            'uri' => $uri,
+            'callable' => $callable,
+        ));
+
+        return $this;
+    }
 }
