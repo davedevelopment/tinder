@@ -82,10 +82,9 @@ Redirects
 =========
 
 Redirecting to a URL after a successful action
-([POST/REDIRECT/GET](http://en.wikipedia.org/wiki/Post/Redirect/Get) isn't
-necessarily the concern of your controller/use case/interactor, so tinder
-provides a simple DSL for redirecting.  With the `redirect` method, you can have
-Tinder send a redirect response if the controller returns null.
+(e.g. [POST/REDIRECT/GET](http://en.wikipedia.org/wiki/Post/Redirect/Get))
+doesn't have to be the concern of your controller/use case/interactor, tinder
+provides a simple DSL to tell it to send a redirect response if the controller returns null.
 
 ``` php
 
