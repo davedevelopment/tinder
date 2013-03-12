@@ -77,6 +77,47 @@ $app->get("/dave", function() {
 
 *Why?* Why should your controller be responsible for rendering a template? 
 
+Redirects
+=========
+
+Redirecting to a URL after a successful action
+([POST/REDIRECT/GET](http://en.wikipedia.org/wiki/Post/Redirect/Get) isn't
+necessarily the concern of your controller/use case/interactor, so tinder
+provides a simple DSL for redirecting.  With the `redirect` method, you can have
+Tinder send a redirect response if the controller returns null.
+
+``` php
+
+$app->post("/users/{id}", function() { return; })
+    ->redirect("/users");
+
+```
+
+If you're using the `UrlGeneratorServiceProvider`, you send a string id and a
+callable, which must return the params for the url generator. The callable can
+use the same name and type hinting semantics as a regular controller.
+
+``` php
+
+$app->get("/users/{id}", function($id) { })
+    ->bind("get_user");
+
+$app->post("/users/{id}", function($id) { return; })
+    ->redirect("get_user", function($id) { return ["id" => $id]; });
+
+```
+
+Something similar can also be achieved if you're not using the generator, by
+having a callable generate the url.
+
+``` php
+
+$app->post("/users/{id}", function($id) { return; })
+    ->redirect(function($id) { return "/users/$id"; });
+
+```
+
+
 Event Listeners as Services
 ===========================
 
