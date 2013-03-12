@@ -19,6 +19,7 @@ rather than `Silex\Application` and your existing functionality will still work.
 * [Controllers as Services](#controllers-as-services)
 * [Argument Injection](#argument-injection)
 * [Template Rendering](#template-rendering)
+* [Redirects](#redirects)
 * [Event Listeners as Services](#event-listeners-as-services)
 * [README Driven Development](#readme-driven-development)
 * [Contributing](#contributing)
