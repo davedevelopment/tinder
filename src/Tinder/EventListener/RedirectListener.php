@@ -4,6 +4,7 @@ namespace Tinder\EventListener;
 
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -21,6 +22,8 @@ class RedirectListener implements EventSubscriberInterface
     protected $resolver;
     protected $urlGenerator;
 
+    protected $enabled = true;
+
     public function __construct(RouteCollection $routes, ControllerResolverInterface $resolver, UrlGeneratorInterface $urlGenerator = null)
     {
         $this->routes = $routes;
@@ -30,6 +33,10 @@ class RedirectListener implements EventSubscriberInterface
 
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
+        if (!$this->enabled) {
+            return;
+        }
+
         $response = $event->getControllerResult();
         if ($response !== null) {
             return;
@@ -72,15 +79,16 @@ class RedirectListener implements EventSubscriberInterface
         $event->setResponse(new RedirectResponse($uri));
     }
 
-    protected function generateUrl($args)
+    public function onKernelException(GetResponseForExceptionEvent $event)
     {
-
+        $this->enabled = false;
     }
 
     public static function getSubscribedEvents()
     {
         return array(
             KernelEvents::VIEW => array('onKernelView', -10),
+            KernelEvents::EXCEPTION => array('onKernelException', 10),
         );
     }
 }

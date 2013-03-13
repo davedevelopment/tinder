@@ -166,6 +166,25 @@ class ApplicationTest extends BaseApplicationTest
         $this->assertInstanceOf("Symfony\Component\HttpFoundation\RedirectResponse", $response);
         $this->assertEquals("/user/12", $response->getTargetUrl());
     }
+
+    /**
+     * @test
+     */
+    public function shouldNotRedirectWhenCustomErrorHandlerReturnsNull()
+    {
+        $app = new Application();
+
+        $app->error(function() { });
+
+        $app->post("/user/{id}", function() { return; })
+            ->redirect("/")
+            ->before(function() { throw new \Exception(); });
+
+        $request = Request::create('/user/12', 'POST');
+        $response = $app->handle($request);
+
+        $this->assertNotInstanceOf("Symfony\Component\HttpFoundation\RedirectResponse", $response);
+    }
 }
 
 
