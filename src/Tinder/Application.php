@@ -33,12 +33,12 @@ class Application extends BaseApplication
             return new RedirectListener($app['routes'], $app['resolver'], $urlGenerator);
         });
 
-        $this['dispatcher_class'] = "PimpleAwareEventDispatcher\PimpleAwareEventDispatcher";
         $this['dispatcher'] = $this->share($this->extend('dispatcher', function($dispatcher) use ($app) {
-            $dispatcher->setContainer($app);
-            $dispatcher->addSubscriberService("tinder.template_rendering_listener", "Tinder\EventListener\TemplateRenderingListener");
-            $dispatcher->addSubscriberService("tinder.redirect_listener", "Tinder\EventListener\RedirectListener");
-            return $dispatcher;
+            $pimpleAwareDispatcher = new \PimpleAwareEventDispatcher\PimpleAwareEventDispatcher($dispatcher, $app);
+            $pimpleAwareDispatcher->addSubscriberService("tinder.template_rendering_listener", "Tinder\EventListener\TemplateRenderingListener");
+            $pimpleAwareDispatcher->addSubscriberService("tinder.redirect_listener", "Tinder\EventListener\RedirectListener");
+
+            return $pimpleAwareDispatcher;
         }));
     }
 }
