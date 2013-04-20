@@ -9,13 +9,14 @@ class Route extends BaseRoute
     /**
      * Render this template with the return value (array) of the controller
      *
-     * @param string  $path    - Path to the template
-     * @param Closure $closure - Optional closure for pre-processing view context
+     * @param  string  $path    - Path to the template
+     * @param  Closure $closure - Optional closure for pre-processing view context
      * @return Route
      */
     public function template($path, $closure = null)
     {
         $this->setOption('_template', array($path, $closure));
+
         return $this;
     }
 
@@ -29,7 +30,7 @@ class Route extends BaseRoute
         while ($arg = array_shift($args)) {
             if (is_string($arg)) {
                 $uri = $arg;
-            } else if (is_callable($arg)) {
+            } elseif (is_callable($arg)) {
                 $callable = $arg;
             } else {
                 throw new \InvalidArgumentException(

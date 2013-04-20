@@ -26,7 +26,7 @@ class TemplateRenderingListener implements EventSubscriberInterface
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
         /**
-         * Anytime we don't find what we're looking for, return and let other 
+         * Anytime we don't find what we're looking for, return and let other
          * listeners handle things
          */
         $response = $event->getControllerResult();
@@ -41,7 +41,7 @@ class TemplateRenderingListener implements EventSubscriberInterface
         }
 
         if (!$args = $route->getOption('_template')) {
-            return; 
+            return;
         }
 
         list($template, $callback) = $args;
@@ -54,7 +54,8 @@ class TemplateRenderingListener implements EventSubscriberInterface
         $event->setResponse(new Response($output));
     }
 
-    protected function render($template, array $context) {
+    protected function render($template, array $context)
+    {
         // deal with other engines here/make configurable
         return $this->app['twig']->render($template, $context);
     }

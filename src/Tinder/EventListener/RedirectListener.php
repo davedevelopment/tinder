@@ -12,8 +12,8 @@ use Symfony\Component\HttpKernel\Controller\ControllerResolverInterface;
 use Symfony\Component\Routing\RouteCollection;
 
 /**
- * This listens to controllers responses for a null return value, if found, it 
- * will look for a _redirect attribute against the route and attempt to use it 
+ * This listens to controllers responses for a null return value, if found, it
+ * will look for a _redirect attribute against the route and attempt to use it
  * to send a RedirectResponse
  *
  */
@@ -49,7 +49,7 @@ class RedirectListener implements EventSubscriberInterface
         }
 
         if (!$args = $route->getOption('_redirect')) {
-            return; 
+            return;
         }
 
         $uri = isset($args['uri']) ? $args['uri'] : null;
