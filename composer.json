@@ -4,7 +4,7 @@
     "licence": "MIT",
     "require": {
         "silex/silex": "1.0.x-dev",
-        "davedevelopment/pimple-aware-event-dispatcher": "*@dev"
+        "davedevelopment/pimple-aware-event-dispatcher": "2.0.x-dev"
     },
     "require-dev": {
         "twig/twig": ">=1.8,<2.0-dev"
