@@ -2,6 +2,7 @@
 
 namespace Tinder;
 
+use PimpleAwareEventDispatcher\PimpleAwareEventDispatcher;
 use Silex\Application as BaseApplication;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Tinder\Controller\ControllerResolver;
@@ -30,15 +31,16 @@ class Application extends BaseApplication
 
         $this['tinder.redirect_listener'] = $this->share(function() use ($app) {
             $urlGenerator = isset($app['url_generator']) ? $app['url_generator'] : null;
+
             return new RedirectListener($app['routes'], $app['resolver'], $urlGenerator);
         });
 
-        $this['dispatcher_class'] = "PimpleAwareEventDispatcher\PimpleAwareEventDispatcher";
         $this['dispatcher'] = $this->share($this->extend('dispatcher', function($dispatcher) use ($app) {
-            $dispatcher->setContainer($app);
-            $dispatcher->addSubscriberService("tinder.template_rendering_listener", "Tinder\EventListener\TemplateRenderingListener");
-            $dispatcher->addSubscriberService("tinder.redirect_listener", "Tinder\EventListener\RedirectListener");
-            return $dispatcher;
+            $pimpleAwareDispatcher = new PimpleAwareEventDispatcher($dispatcher, $app);
+            $pimpleAwareDispatcher->addSubscriberService("tinder.template_rendering_listener", "Tinder\EventListener\TemplateRenderingListener");
+            $pimpleAwareDispatcher->addSubscriberService("tinder.redirect_listener", "Tinder\EventListener\RedirectListener");
+
+            return $pimpleAwareDispatcher;
         }));
     }
 }

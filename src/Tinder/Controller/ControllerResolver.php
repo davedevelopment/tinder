@@ -7,8 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ControllerResolver extends BaseControllerResolver
 {
-    protected function doGetArguments(Request $request, $controller, array $parameters) {
-
+    protected function doGetArguments(Request $request, $controller, array $parameters)
+    {
         foreach ($parameters as $param) {
             if ($param->isArray() && $param->getName() == 'params') {
                 $request->attributes->set('params', $request->request->all());

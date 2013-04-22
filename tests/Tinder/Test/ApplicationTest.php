@@ -24,7 +24,7 @@ class ApplicationTest extends BaseApplicationTest
 
         $this->assertEquals('{"dave":"is ace","tinder":"is amazing"}', $app->handle($request)->getContent());
     }
-    
+
     /**
      * @test
      */
@@ -79,11 +79,11 @@ class ApplicationTest extends BaseApplicationTest
             'twig.path' => __DIR__.'/views',
         ));
 
-        $app->get('/', function() { 
-            return array('name' => 'Dave'); 
+        $app->get('/', function() {
+            return array('name' => 'Dave');
         })
-        ->template('hello_world.html.twig', function($data) { 
-            $data['name'] = 'Tinder'; return $data; 
+        ->template('hello_world.html.twig', function($data) {
+            $data['name'] = 'Tinder'; return $data;
         });
 
         $request = Request::create('/');
@@ -187,10 +187,10 @@ class ApplicationTest extends BaseApplicationTest
     }
 }
 
-
 class MyController
 {
-    public function getAction() { 
+    public function getAction()
+    {
         return __METHOD__;
     }
 }
