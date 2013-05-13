@@ -3,7 +3,7 @@
     "description": "Clean code enabler for silex",
     "licence": "MIT",
     "require": {
-        "silex/silex": "1.0.x-dev",
+        "silex/silex": "~1.0",
         "davedevelopment/pimple-aware-event-dispatcher": "2.0.x-dev"
     },
     "require-dev": {
