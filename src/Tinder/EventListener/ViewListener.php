@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * If a route returns an array and has set a template, we render it here
  */
-class TemplateRenderingListener implements EventSubscriberInterface
+class ViewListener implements EventSubscriberInterface
 {
     protected $app;
 
@@ -40,18 +40,26 @@ class TemplateRenderingListener implements EventSubscriberInterface
             return;
         }
 
-        if (!$args = $route->getOption('_template')) {
+        if (!$args = $route->getOption('_view')) {
             return;
         }
 
-        list($template, $callback) = $args;
+        $template = $args['template'];
+        $callable = $args['callable'];
 
-        if ($callback) {
-            $response = $callback($response);
+        if ($callable) {
+            $response = $callable($response);
         }
 
-        $output = $this->render($template, $response);
-        $event->setResponse(new Response($output));
+        if ($response instanceof Response) {
+            $event->setResponse(new Response($output));
+            return;
+        }
+
+        if (null !== $template) {
+            $output = $this->render($template, $response);
+            $event->setResponse(new Response($output));
+        }
     }
 
     protected function render($template, array $context)

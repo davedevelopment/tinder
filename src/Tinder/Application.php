@@ -6,7 +6,7 @@ use PimpleAwareEventDispatcher\PimpleAwareEventDispatcher;
 use Silex\Application as BaseApplication;
 use Silex\Provider\ServiceControllerServiceProvider;
 use Tinder\Controller\ControllerResolver;
-use Tinder\EventListener\TemplateRenderingListener;
+use Tinder\EventListener\ViewListener;
 use Tinder\EventListener\RedirectListener;
 
 class Application extends BaseApplication
@@ -25,8 +25,8 @@ class Application extends BaseApplication
 
         $this->register(new ServiceControllerServiceProvider());
 
-        $this['tinder.template_rendering_listener'] = $this->share(function() use ($app) {
-            return new TemplateRenderingListener($app);
+        $this['tinder.view_listener'] = $this->share(function() use ($app) {
+            return new ViewListener($app);
         });
 
         $this['tinder.redirect_listener'] = $this->share(function() use ($app) {
@@ -37,7 +37,7 @@ class Application extends BaseApplication
 
         $this['dispatcher'] = $this->share($this->extend('dispatcher', function($dispatcher) use ($app) {
             $pimpleAwareDispatcher = new PimpleAwareEventDispatcher($dispatcher, $app);
-            $pimpleAwareDispatcher->addSubscriberService("tinder.template_rendering_listener", "Tinder\EventListener\TemplateRenderingListener");
+            $pimpleAwareDispatcher->addSubscriberService("tinder.view_listener", "Tinder\EventListener\ViewListener");
             $pimpleAwareDispatcher->addSubscriberService("tinder.redirect_listener", "Tinder\EventListener\RedirectListener");
 
             return $pimpleAwareDispatcher;
