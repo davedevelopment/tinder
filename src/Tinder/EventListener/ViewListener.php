@@ -52,7 +52,7 @@ class ViewListener implements EventSubscriberInterface
         }
 
         if ($response instanceof Response) {
-            $event->setResponse(new Response($output));
+            $event->setResponse($response);
             return;
         }
 

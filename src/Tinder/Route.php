@@ -23,7 +23,7 @@ class Route extends BaseRoute
     {
         $args = func_get_args();
 
-        $uri = null;
+        $template = null;
         $callable = null;
 
         while ($arg = array_shift($args)) {

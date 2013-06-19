@@ -4,6 +4,7 @@ namespace Tinder\Test;
 
 use Silex\Tests\ApplicationTest as BaseApplicationTest;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Tinder\Application;
 
 /**
@@ -89,6 +90,23 @@ class ApplicationTest extends BaseApplicationTest
 
         $request = Request::create('/');
         $this->assertEquals("Hello Tinder\n", $app->handle($request)->getContent());
+    }
+
+    /** @test */
+    public function shouldReturnResponseIfGeneratedByViewCallback()
+    {
+        $app = new Application();
+        $app['debug'] = true;
+
+        $app->get('/', function() {
+            return array('name' => 'Dave');
+        })
+        ->view(function($data) {
+            return new Response('Hello ' . $data['name']);
+        });
+
+        $request = Request::create('/');
+        $this->assertEquals("Hello Dave", $app->handle($request)->getContent());
     }
 
     /**
