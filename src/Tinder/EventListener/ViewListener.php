@@ -48,7 +48,7 @@ class ViewListener implements EventSubscriberInterface
         $callable = $args['callable'];
 
         if ($callable) {
-            $response = $callable($response);
+            $response = $callable($response, $request);
         }
 
         if ($response instanceof Response) {
