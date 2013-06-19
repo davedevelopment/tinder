@@ -30,4 +30,24 @@ class ControllerResolverTest extends BaseControllerResolverTest
         $args = $res->getArguments($req, function(array $query) {});
         $this->assertEquals(array($expected), $args);
     }
+
+    /** @test */
+    public function shouldNotOverrideExistingParamsVars()
+    {
+        $res = new ControllerResolver(new Application);
+        $req = Request::create("/dave", "POST", array('dave' => 'is ace'));
+        $req->attributes->set('params', $expected = array('dave' => 'is amazing'));
+        $args = $res->getArguments($req, function(array $params) {});
+        $this->assertEquals(array($expected), $args);
+    }
+
+    /** @test */
+    public function shouldNotOverrideExistingQueryVars()
+    {
+        $res = new ControllerResolver(new Application);
+        $req = Request::create("/dave", "GET", array('dave' => 'is ace'));
+        $req->attributes->set('query', $expected = array('dave' => 'is amazing'));
+        $args = $res->getArguments($req, function(array $query) {});
+        $this->assertEquals(array($expected), $args);
+    }
 }
